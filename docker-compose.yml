@@ -1,11 +1,27 @@
 version: '3.3'
 
 services:
+  nginx:
+    links:
+      - golang
+    image: nginx:latest
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    environment: 
+      TZ: Asia/Shanghai
+    ports:
+      - "80:80"
+    restart: always
+    networks:
+      - default
+
   golang:
     build: ./golang
     image: xiabee/golang
     volumes:
       - ./www:/home/xiabee
+    environment: 
+      TZ: Asia/Shanghai
     command: 
       - /bin/sh 
       - -c 
@@ -13,7 +29,9 @@ services:
         go build -o main main.go
         ./main
     # 以此运行多条命令
-    
-    ports:
-      - 80:8000
-    # 隐射端口
+
+    networks:
+      - default
+
+networks:
+  default:
