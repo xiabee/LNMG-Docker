@@ -1,0 +1,19 @@
+version: '3.3'
+
+services:
+  golang:
+    build: ./golang
+    image: xiabee/golang
+    volumes:
+      - ./www:/home/xiabee
+    command: 
+      - /bin/sh 
+      - -c 
+      - |
+        go build -o main main.go
+        ./main
+    # 以此运行多条命令
+    
+    ports:
+      - 80:8000
+    # 隐射端口
