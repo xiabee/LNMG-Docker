@@ -11,6 +11,14 @@ Go web server with docker
 
 
 
+## 使用方式
+
+```bash
+docker-compose up -d
+```
+
+
+
 ## 当前进度
 
 * 实现`Golang`服务器的编译运行
