@@ -33,7 +33,7 @@ services:
     image: mysql:latest
     container_name: mysql_docker
     volumes: 
-        # - ./mysql/my.cnf:/etc/mysql/my.cnf
+        - ./mysql/my.cnf:/etc/mysql/my.cnf
         - ./mysql/init:/docker-entrypoint-initdb.d/
         # docker-entrypoint-initdb.d目录下的文件会自动执行
     environment: 
