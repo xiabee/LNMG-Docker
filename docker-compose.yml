@@ -5,33 +5,52 @@ services:
     links:
       - golang
     image: nginx:latest
+    container_name: nginx_docker
     volumes:
       - ./nginx:/etc/nginx/conf.d
     environment: 
       TZ: Asia/Shanghai
     ports:
       - "80:80"
-    restart: always
+    # restart: always
     networks:
-      - default
+      - go_develop
 
   golang:
+    depends_on:
+      - mysql
     build: ./golang
     image: xiabee/golang
-    volumes:
-      - ./www:/home/xiabee
+    container_name: golang_docker
+    links:
+      - mysql
     environment: 
       TZ: Asia/Shanghai
-    command: 
-      - /bin/sh 
-      - -c 
-      - |
-        go build -o main main.go
-        ./main
-    # 以此运行多条命令
+    networks:
+      - go_develop
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql_docker
+    volumes: 
+        # - ./mysql/my.cnf:/etc/mysql/my.cnf
+        - ./mysql/init:/docker-entrypoint-initdb.d/
+        # docker-entrypoint-initdb.d目录下的文件会自动执行
+    environment: 
+        MYSQL_RANDOM_ROOT_PASSWORD: 1
+        # 设置管理员随机密码
+        MYSQL_USER: test
+        MYSQL_PASSWORD: test
+        # 创建用户
+        TZ: Asia/Shanghai
+        LANG: C.UTF-8
+    restart: always
+    expose:
+      - 3306
 
     networks:
-      - default
+      - go_develop
 
 networks:
-  default:
+    go_develop:
+        driver: bridge

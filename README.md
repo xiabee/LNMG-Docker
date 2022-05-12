@@ -10,19 +10,21 @@ Go web server with docker
 ## 使用方式
 
 ```bash
-docker-compose up -d
+docker-compose up -d --build
+# 修改golang代码后都需要重新build一次，从缓存中构建，速度还可以
 ```
 
 ## 当前进度
 
 * 实现`Golang`服务器的编译运行
 * 实现`Golang`与`Nginx`的连接
+* 实现数据库读写
 
 ## 
 
 ## 进行中的工作
 
-* 连接数据库
+* 实时查询，正在构建后端逻辑
 
 
 
@@ -33,7 +35,7 @@ docker-compose up -d
   ```go
   // main.go
   err := http.ListenAndServe(":8000", nil)
-  	// 与nginx.conf中的upstream一致
+      // 与nginx.conf中的upstream一致
   ```
   
   ```nginx
@@ -51,5 +53,4 @@ docker-compose up -d
      ...
       ports:
         - "80:80"
-  
   ```
