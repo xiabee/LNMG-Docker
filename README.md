@@ -19,6 +19,7 @@ docker-compose up -d --build
 * 实现`Golang`服务器的编译运行
 * 实现`Golang`与`Nginx`的连接
 * 实现实时查询
+* 已经可以SQL注入了......`http://localhost?id=xxx`
 
 ## 
 
