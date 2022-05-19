@@ -45,8 +45,6 @@ services:
         TZ: Asia/Shanghai
         LANG: C.UTF-8
     restart: always
-    expose:
-      - 3306
 
     networks:
       - go_develop

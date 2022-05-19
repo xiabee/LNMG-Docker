@@ -18,6 +18,4 @@ RUN GOOS=linux CGO_ENABLED=0 go build -ldflags="-s -w" -installsuffix cgo -o mai
 
 # RUN go build -o main
 
-EXPOSE 8000
-
 CMD [ "./main" ]

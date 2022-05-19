@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"net/http"
+	"strings"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -15,12 +16,17 @@ func checkErr(e error) {
 }
 
 func router(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("[-] Server is running") //  r :输出到服务端
-	fmt.Fprintf(w, "Hello xiabee!\n")    //  w :输出到网页端
+	// fmt.Println("[-] Server is running") //  r :输出到服务端
+	fmt.Fprintf(w, "Hello xiabee!\n") //  w :输出到网页端
 	r.ParseForm()
 	if r.Form["id"] != nil {
 		id := r.Form["id"][0]
 		text1, text2 := sql_connect(id)
+		if strings.Contains(text1, "flag") || strings.Contains(text2, "flag") {
+			fmt.Println("Detected POC: " + id)
+		}
+		// 输出成功hack的poc
+
 		fmt.Fprint(w, text1+"\n")
 		fmt.Fprint(w, text2)
 	}
@@ -50,16 +56,12 @@ func sql_connect(input string) (string, string) {
 	var id string
 	var name string
 	for row.Next() {
-
 		err = row.Scan(&id, &name)
 		checkErr(err)
-
-		fmt.Print(id, name)
 	}
 	return id, name
 }
 
 func main() {
 	server()
-
 }
