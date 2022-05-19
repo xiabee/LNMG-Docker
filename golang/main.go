@@ -3,7 +3,6 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"log"
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -17,22 +16,26 @@ func checkErr(e error) {
 
 func router(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("[-] Server is running") //  r :输出到服务端
-	fmt.Fprintf(w, "Hello xiabee!")      //  w :输出到网页端
-	sql_connect()
+	fmt.Fprintf(w, "Hello xiabee!\n")    //  w :输出到网页端
+	r.ParseForm()
+	if r.Form["id"] != nil {
+		id := r.Form["id"][0]
+		text1, text2 := sql_connect(id)
+		fmt.Fprint(w, text1+"\n")
+		fmt.Fprint(w, text2)
+	}
+
 }
 
 func server() {
 	http.HandleFunc("/", router)
 	err := http.ListenAndServe(":8000", nil)
 	// 与nginx.conf中的upstream一致
-
-	if err != nil {
-		log.Fatal("ListenAndServe: ", err)
-	}
+	checkErr(err)
 
 }
 
-func sql_connect() {
+func sql_connect(input string) (string, string) {
 	dsn := "test:test@tcp(mysql:3306)/security"
 	db, err := sql.Open("mysql", dsn)
 	checkErr(err)
@@ -42,22 +45,18 @@ func sql_connect() {
 	err = db.Ping()
 	checkErr(err)
 
-	row, err := db.Query("select id,username from users where id=1")
+	row, err := db.Query("select id,username from users where id=" + input)
 	checkErr(err)
-
+	var id string
+	var name string
 	for row.Next() {
 
-		var id int
-		var name string
-
 		err = row.Scan(&id, &name)
+		checkErr(err)
 
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		fmt.Printf("Id: %d, Name: %s\n", id, name)
+		fmt.Print(id, name)
 	}
+	return id, name
 }
 
 func main() {
