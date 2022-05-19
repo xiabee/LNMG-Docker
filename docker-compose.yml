@@ -8,6 +8,7 @@ services:
     container_name: nginx_docker
     volumes:
       - ./nginx:/etc/nginx/conf.d
+      - ./logs/nginx:/var/log/nginx
     environment: 
       TZ: Asia/Shanghai
     ports:
