@@ -13,7 +13,7 @@ ADD go.sum .
 RUN go mod download
 
 ADD *.go .
-
+ADD ./public ./public
 RUN GOOS=linux CGO_ENABLED=0 go build -ldflags="-s -w" -installsuffix cgo -o main main.go
 
 # RUN go build -o main

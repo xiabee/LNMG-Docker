@@ -38,5 +38,5 @@ CREATE TABLE flag
 	);
 
 INSERT INTO security.users (id, username, passwd) VALUES ('1', 'Dumb', 'Dumb'), ('2', 'Angelina', 'I-kill-you'), ('3', 'Dummy', 'p@ssword'), ('4', 'secure', 'crappy'), ('5', 'stupid', 'stupidity'), ('6', 'superman', 'genious'), ('7', 'batman', 'mob!le'), ('8', 'admin', 'admin');
-INSERT INTO security.users (id, username, passwd) VALUES ('9', 'flag', 'flag{fake_flag}');
+INSERT INTO security.flag (id, flag) VALUES ('1','FLAG{S0_GRE2TE!_Y0U_G0T_1T!}');
 INSERT INTO security.emails (id, email_id) VALUES ('1', 'Dumb@dhakkan.com'), ('2', 'Angel@iloveu.com'), ('3', 'Dummy@dhakkan.local'), ('4', 'secure@dhakkan.local'), ('5', 'stupid@dhakkan.local'), ('6', 'superman@dhakkan.local'), ('7', 'batman@dhakkan.local'), ('8', 'admin@dhakkan.com');
